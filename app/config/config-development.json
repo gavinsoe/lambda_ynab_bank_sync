@@ -1,0 +1,15 @@
+{
+    "sync_configs": [
+        {
+            "source": {
+                "source_name": "up",
+                "access_token": { "ssm_key": "/insert/path/to/key" }
+            },
+            "destination": {
+                "access_token": { "ssm_key": "/insert/path/to/key" },
+                "budget_id": { "ssm_key": "/insert/path/to/key" },
+                "account_id": { "ssm_key": "/insert/path/to/key" }
+            }
+        }
+    ]
+}

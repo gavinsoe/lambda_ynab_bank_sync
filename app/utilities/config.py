@@ -33,8 +33,8 @@ def populate_ssm_keys(raw_dict: dict) -> dict:
         for d_key in raw_dict.keys():
             d_value = raw_dict[d_key]
             if isinstance(d_value, dict):
-                if "ssm-key" in d_value and len(d_value.keys()) == 1:
-                    result = get_parameter(d_value["ssm-key"], "ap-southeast-2")
+                if "ssm_key" in d_value and len(d_value.keys()) == 1:
+                    result = get_parameter(d_value["ssm_key"], "ap-southeast-2")
 
                     raw_dict[d_key] = result
                 else:
