@@ -13,16 +13,21 @@ class SourceUpBank(BaseModel):
     source_name: Literal['up']
     access_token: str
 
-class DestinationYnab(BaseModel):
+class DestinationConfig(BaseModel):
     access_token: str    
     budget_id: UUID
     account_id: UUID
 
 class SyncConfig(BaseModel):
     source: Union[SourceAmex, SourceUpBank]
-    destination: DestinationYnab
+    destination: DestinationConfig
+
+class EndpointsConfig(BaseModel):
+    ynab: str
+    upbank: str
 
 class ConfigModel(BaseModel):
+    endpoints: EndpointsConfig
     sync_configs: List[SyncConfig]
 
 

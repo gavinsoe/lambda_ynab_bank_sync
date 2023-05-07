@@ -1,4 +1,8 @@
 {
+    "endpoints": {
+        "ynab": "https://api.ynab.com/v1",
+        "upbank": "https://api.up.com.au/api/v1"
+    },
     "sync_configs": [
         {
             "source": {
