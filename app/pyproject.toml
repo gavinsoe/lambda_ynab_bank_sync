@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "ynab-bank-sync"
+version = "0.1.0"
+description = ""
+authors = ["Gavin Soebiantoro <gavin@soebi.com>"]
+readme = "README.md"
+packages = [{include = "ynab_bank_sync"}]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+pydantic = "^1.10.7"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
