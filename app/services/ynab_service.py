@@ -9,7 +9,7 @@ from utilities.config import CFG
 class YnabService:
     def __init__(self, access_token):
         self._endpoint = CFG.endpoints.ynab
-        self._headers = {"Authorisation": "Brearer {access_token}"}
+        self._headers = {"Authorization": f"Bearer {access_token}"}
         
     def list_budgets(self) -> List[Budget]:
         try:
@@ -45,7 +45,7 @@ class YnabService:
         
     def get_transactions(self, budget_id, account_id, since_date:str = None) -> List[Transaction]:
         try:
-            url = f"{self._endpoint}/budgets/{budget_id}/accounts{account_id}/transactions"
+            url = f"{self._endpoint}/budgets/{budget_id}/accounts/{account_id}/transactions"
             
             if since_date:
                 url += f"?since_date={since_date}"

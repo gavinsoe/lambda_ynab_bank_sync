@@ -1,15 +1,14 @@
 from datetime import datetime
 from typing import Optional
-from uuid import UUID
 from pydantic import BaseModel
 
 class Budget(BaseModel):
-    id: UUID
+    id: str
     name: str
     last_modified_on: datetime
 
 class Account(BaseModel):
-    id: UUID
+    id: str
     name: str
     type: str
     on_budget: bool
@@ -18,12 +17,12 @@ class Account(BaseModel):
     cleared_balance: float
     
 class Transaction(BaseModel):
-    id: Optional[UUID]
+    id: Optional[str]
     date: str
     amount: int
-    payee_id: Optional[UUID]
-    payee_name: str
-    category_id: Optional[UUID]
+    payee_id: Optional[str]
+    payee_name: Optional[str]
+    category_id: Optional[str]
     memo: Optional[str]
     cleared: str
     

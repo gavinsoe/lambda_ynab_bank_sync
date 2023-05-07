@@ -31,21 +31,38 @@ class SyncBase(ABC):
 
         return transactions
 
+    def filter_transactions(self, incoming_transactions, existing_transactions):
+        filtered_transactions = []
+        
+        for t in incoming_transactions:
+            exists = False
+            for t_e in existing_transactions:
+                if t == t_e:
+                    exists = True
+                    break
+                
+            if not exists:
+                filtered_transactions += [t]
+                
+        return filtered_transactions
+            
     def upload_transactions(self, transactions: List[Transaction]):
-        self.ynab_service.create_transactions(
-            budget_id=self.destination_config.budget_id,
-            account_id=self.destination_config.account_id,
-            transactions=transactions,
-        )
+        if transactions:
+            self.ynab_service.create_transactions(
+                budget_id=self.destination_config.budget_id,
+                account_id=self.destination_config.account_id,
+                transactions=transactions,
+            )
 
     def run(self):
         incoming_transactions = self.get_transactions_from_source()
 
         existing_transactions = self.get_transactions_from_ynab()
 
-        filter(
-            lambda x: x not in existing_transactions,
-            incoming_transactions,
-        )
+        filtered_transactions = self.filter_transactions(incoming_transactions, existing_transactions)
+        # filter(
+        #     lambda x: x not in existing_transactions,
+        #     incoming_transactions,
+        # )
 
-        self.upload_transactions(incoming_transactions)
+        self.upload_transactions(filtered_transactions)

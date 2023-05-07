@@ -4,11 +4,11 @@ version = "0.1.0"
 description = ""
 authors = ["Gavin Soebiantoro <gavin@soebi.com>"]
 readme = "README.md"
-packages = [{include = "ynab_bank_sync"}]
 
 [tool.poetry.dependencies]
 python = "^3.9"
 pydantic = "^1.10.7"
+boto3 = "^1.26.129"
 
 
 [build-system]

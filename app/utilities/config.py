@@ -1,6 +1,5 @@
 import json
 from typing import List, Literal, Union
-from uuid import UUID
 from pydantic import BaseModel
 from utilities.aws_ssm import get_parameter
 from utilities.environment import Environment
@@ -12,12 +11,12 @@ class SourceAmex(BaseModel):
 class SourceUpBank(BaseModel):
     source_name: Literal['up']
     access_token: str
-    account_id: UUID
+    account_id: str
 
 class DestinationConfig(BaseModel):
     access_token: str    
-    budget_id: UUID
-    account_id: UUID
+    budget_id: str
+    account_id: str
 
 class SyncConfig(BaseModel):
     source: Union[SourceAmex, SourceUpBank]
@@ -30,9 +29,6 @@ class EndpointsConfig(BaseModel):
 class ConfigModel(BaseModel):
     endpoints: EndpointsConfig
     sync_configs: List[SyncConfig]
-
-
-CFG = ConfigModel()
 
 def populate_ssm_keys(raw_dict: dict) -> dict:
     try:
