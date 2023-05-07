@@ -12,6 +12,7 @@ class SourceAmex(BaseModel):
 class SourceUpBank(BaseModel):
     source_name: Literal['up']
     access_token: str
+    account_id: UUID
 
 class DestinationConfig(BaseModel):
     access_token: str    

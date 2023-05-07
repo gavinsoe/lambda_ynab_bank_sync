@@ -7,6 +7,7 @@ from utilities.config import DestinationConfig
 
 
 class SyncBase(ABC):
+    YNAB_DATE_FORMAT = "%Y-%m-%d"
     def __init__(self, destination_config: DestinationConfig, duration_in_days: int):
         self.ynab_service = YnabService(access_token=destination_config.access_token)
         self.destination_config = destination_config
@@ -20,7 +21,7 @@ class SyncBase(ABC):
 
     def get_transactions_from_ynab(self):
         since_date = (datetime.now() - timedelta(days=self.duration_in_days)).strftime(
-            "%Y-%m-%d"
+            self.YNAB_DATE_FORMAT
         )
         transactions = self.ynab_service.get_transactions(
             self.destination_config.budget_id,

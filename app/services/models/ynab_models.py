@@ -18,13 +18,13 @@ class Account(BaseModel):
     cleared_balance: float
     
 class Transaction(BaseModel):
-    id: UUID
+    id: Optional[UUID]
     date: str
     amount: int
-    payee_id: UUID
+    payee_id: Optional[UUID]
     payee_name: str
     category_id: Optional[UUID]
-    memo: str
+    memo: Optional[str]
     cleared: str
     
     def __eq__(self, other: object) -> bool:        
