@@ -1,0 +1,36 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  YNAB: Transaction Sync sync
+  SAM template to setup all the resources for the sync process
+
+# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+Globals:
+  Function:
+    Timeout: 3
+    MemorySize: 128
+    Tracing: Active
+  Api:
+    TracingEnabled: true
+
+Resources:
+  YnabSyncTransactionsFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: app/
+      Handler: main.sync
+      Runtime: python3.9
+      Policies:
+        - arn:aws:iam::aws:policy/AmazonSSMReadOnlyAccess
+      Timeout: 900
+      Architectures:
+        - x86_64
+      Events:
+        Schedule:
+          Type: ScheduleV2
+          Properties:
+            Input: |
+              {
+                "duration_in_days": 2
+              }
+            ScheduleExpression: rate(1 day)

@@ -156,4 +156,8 @@ thunder-tests/.thunderEnvironment.json.tmp
 
 lambda/config_sensitive.py
 *.tmp
-*/.aws-sam/
+
+
+# aws sam files
+*/.aws-sam/*
+samconfig.toml
