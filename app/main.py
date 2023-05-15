@@ -13,4 +13,4 @@ def sync(event, context):
         sync_class.run()
 
 if __name__ == "__main__":
-    sync()
+    sync({"duration_in_days": 25}, None)

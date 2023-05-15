@@ -12,6 +12,7 @@ class SourceUpBank(BaseModel):
     source_name: Literal['up']
     access_token: str
     account_id: str
+    round_up_payee_id: str
 
 class DestinationConfig(BaseModel):
     access_token: str    

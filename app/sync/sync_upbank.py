@@ -19,26 +19,41 @@ class SyncUpbank(SyncBase):
         self.upbank_service = UpBankService(source_config.access_token)
 
     def _transform_to_transaction(self, t: dict) -> Transaction:
+        attributes = t.get("attributes", {})
         # extract and transform the date
-        date_raw = t.get("attributes", {}).get("createdAt")
+        date_raw = attributes.get("createdAt")
         ynab_formatted_date = datetime.strptime(
             date_raw, self.UPBANK_DATE_FORMAT
         ).strftime(self.YNAB_DATE_FORMAT)
 
         # extract the value, and multiply by 10 as YNAB stores it in milliunits
         amount = (
-            t.get("attributes", {})
+            attributes
             .get("amount", {})
             .get("valueInBaseUnits")
             * 10
         )
 
-        return Transaction(
+        transactions = []
+        transactions.append(Transaction(
             date=ynab_formatted_date,
             amount=amount,
-            payee_name=t.get("attributes", {}).get("description"),
-            cleared="uncleared",
-        )
+            payee_name=attributes.get("description"),
+            cleared="cleared" if t.get("status") == "SETTLED" else "uncleared",
+        ))
+        
+        # check for round ups
+        round_up = attributes.get("roundUp")
+        if round_up is not None:
+            round_up_amount = round_up.get('amount').get("valueInBaseUnits") * 10
+            transactions.append(Transaction(
+                date=ynab_formatted_date,
+                amount=round_up_amount,                
+                payee_id=self.source_config.round_up_payee_id,
+                cleared="cleared"
+            ))
+        
+        return transactions
 
     def get_transactions_from_source(self) -> Transaction:
         since_date = (
@@ -54,4 +69,4 @@ class SyncUpbank(SyncBase):
         )
 
         # transform transactions to...
-        return [self._transform_to_transaction(t) for t in transactions]
+        return sum([self._transform_to_transaction(t) for t in transactions], [])
