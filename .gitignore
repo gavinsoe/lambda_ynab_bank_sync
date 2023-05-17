@@ -160,4 +160,5 @@ lambda/config_sensitive.py
 
 # aws sam files
 */.aws-sam/*
+.aws-sam/
 samconfig.toml
