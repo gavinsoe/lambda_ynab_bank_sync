@@ -1,5 +1,5 @@
 import json
-from typing import List, Literal, Union
+from typing import List, Literal, Optional, Union
 from pydantic import BaseModel
 from utilities.aws_ssm import get_parameter
 from utilities.environment import Environment
@@ -12,7 +12,7 @@ class SourceUpBank(BaseModel):
     source_name: Literal['up']
     access_token: str
     account_id: str
-    round_up_payee_id: str
+    round_up_payee_id: Optional[str]
 
 class DestinationConfig(BaseModel):
     access_token: str    
@@ -20,6 +20,7 @@ class DestinationConfig(BaseModel):
     account_id: str
 
 class SyncConfig(BaseModel):
+    name: str
     source: Union[SourceAmex, SourceUpBank]
     destination: DestinationConfig
 

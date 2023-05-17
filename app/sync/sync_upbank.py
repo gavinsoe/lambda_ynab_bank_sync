@@ -43,16 +43,17 @@ class SyncUpbank(SyncBase):
         ))
         
         # check for round ups
-        round_up = attributes.get("roundUp")
-        if round_up is not None:
-            round_up_amount = round_up.get('amount').get("valueInBaseUnits") * 10
-            transactions.append(Transaction(
-                date=ynab_formatted_date,
-                amount=round_up_amount,                
-                payee_id=self.source_config.round_up_payee_id,
-                cleared="cleared"
-            ))
-        
+        if self.source_config.round_up_payee_id:
+            round_up = attributes.get("roundUp")
+            if round_up is not None:
+                round_up_amount = round_up.get('amount').get("valueInBaseUnits") * 10
+                transactions.append(Transaction(
+                    date=ynab_formatted_date,
+                    amount=round_up_amount,                
+                    payee_id=self.source_config.round_up_payee_id,
+                    cleared="cleared"
+                ))
+            
         return transactions
 
     def get_transactions_from_source(self) -> Transaction:
