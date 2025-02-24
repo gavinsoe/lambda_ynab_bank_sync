@@ -37,3 +37,16 @@ class UpBankService:
         except Exception as e:
             print(f"Something went wrong while fetching the list of transactions. {e}")
             raise e
+
+    def ping(self):
+        try:
+            url = f"{self._endpoint}/util/ping"
+
+            response = requests.get(headers=self._headers, url=url)
+            response.raise_for_status()
+
+            return json.loads(response.content)
+
+        except Exception as e:
+            print(f"Something went wrong while pinging the api. {e}")
+            raise e
