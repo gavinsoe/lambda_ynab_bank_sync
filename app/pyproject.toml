@@ -1,16 +1,79 @@
-[tool.poetry]
+[project]
 name = "ynab-bank-sync"
 version = "0.1.0"
-description = ""
-authors = ["Gavin Soebiantoro <gavin@soebi.com>"]
+requires-python = ">=3.9,<3.10"
 readme = "README.md"
+dependencies = [
+    "pydantic~=1.10",
+    "boto3~=1.26"
+]
 
-[tool.poetry.dependencies]
-python = "^3.9"
-pydantic = "^1.10.7"
-boto3 = "^1.26.129"
+[project.optional-dependencies]
+dev = [
+    "ruff~=0.2.2",
+    "pre-commit~=2.21.0",
+    "pyright~=1.1.352",
+    "pytest~=7.2.1",
+    "pytest-asyncio~=0.15.1",
+    "pytest-mock~=3.10.0",
+    "moto[s3,dynamodb]~=5.0.7",
+    "httpx~=0.25.1",
+]
 
+[tool.ruff]
+# Exclude a variety of commonly ignored directories.
+exclude = [
+    ".bzr",
+    ".direnv",
+    ".eggs",
+    ".git",
+    ".git-rewrite",
+    ".hg",
+    ".ipynb_checkpoints",
+    ".mypy_cache",
+    ".nox",
+    ".pants.d",
+    ".pyenv",
+    ".pytest_cache",
+    ".pytype",
+    ".ruff_cache",
+    ".svn",
+    ".tox",
+    ".venv",
+    ".vscode",
+    "__pypackages__",
+    "_build",
+    "buck-out",
+    "build",
+    "dist",
+    "node_modules",
+    "site-packages",
+    "venv",
+]
 
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+line-length = 88
+indent-width = 4
+
+target-version = "py39"
+
+[tool.ruff.lint]
+
+select = ["E4", "E7", "E9", "F", "I"]
+ignore = []
+
+# Allow fix for all enabled rules (when `--fix`) is provided.
+fixable = ["ALL"]
+unfixable = []
+
+[tool.ruff.format]
+# Like Black, use double quotes for strings.
+quote-style = "double"
+
+# Like Black, indent with spaces, rather than tabs.
+indent-style = "space"
+
+# Like Black, respect magic trailing commas.
+skip-magic-trailing-comma = false
+
+# Like Black, automatically detect the appropriate line ending.
+line-ending = "auto"

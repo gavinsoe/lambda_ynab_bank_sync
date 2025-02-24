@@ -99,5 +99,11 @@
         "**/.trunk/*plugins/": false,
         "**/.trunk/*notifications/": false
     },
-    "hide-files.files": []
+    "hide-files.files": [],
+    "editor.formatOnSave": true,
+    "python.testing.pytestArgs": [
+        "tests"
+    ],
+    "python.testing.unittestEnabled": false,
+    "python.testing.pytestEnabled": true
 }

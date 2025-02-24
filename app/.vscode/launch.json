@@ -6,7 +6,7 @@
     "configurations": [
         {
             "name": "main.py - development",
-            "type": "python",
+            "type": "debugpy",
             "request": "launch",
             "cwd": "${workspaceFolder}/app",
             "program": "main.py",
