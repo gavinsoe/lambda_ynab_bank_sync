@@ -1,6 +1,8 @@
 import json
 from typing import List, Literal, Optional, Union
+
 from pydantic import BaseModel
+
 from utilities.aws_ssm import get_parameter
 from utilities.environment import Environment
 

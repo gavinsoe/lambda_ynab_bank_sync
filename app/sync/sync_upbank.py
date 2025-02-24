@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta, timezone
+
 from services.models.ynab_models import Transaction
 from services.upbank_service import UpBankService
 from sync.sync_base import SyncBase
@@ -27,33 +28,32 @@ class SyncUpbank(SyncBase):
         ).strftime(self.YNAB_DATE_FORMAT)
 
         # extract the value, and multiply by 10 as YNAB stores it in milliunits
-        amount = (
-            attributes
-            .get("amount", {})
-            .get("valueInBaseUnits")
-            * 10
-        )
+        amount = attributes.get("amount", {}).get("valueInBaseUnits") * 10
 
         transactions = []
-        transactions.append(Transaction(
-            date=ynab_formatted_date,
-            amount=amount,
-            payee_name=attributes.get("description"),
-            cleared="cleared" if t.get("status") == "SETTLED" else "uncleared",
-        ))
-        
+        transactions.append(
+            Transaction(
+                date=ynab_formatted_date,
+                amount=amount,
+                payee_name=attributes.get("description"),
+                cleared="cleared" if t.get("status") == "SETTLED" else "uncleared",
+            )
+        )
+
         # check for round ups
         if self.source_config.round_up_payee_id:
             round_up = attributes.get("roundUp")
             if round_up is not None:
-                round_up_amount = round_up.get('amount').get("valueInBaseUnits") * 10
-                transactions.append(Transaction(
-                    date=ynab_formatted_date,
-                    amount=round_up_amount,                
-                    payee_id=self.source_config.round_up_payee_id,
-                    cleared="cleared"
-                ))
-            
+                round_up_amount = round_up.get("amount").get("valueInBaseUnits") * 10
+                transactions.append(
+                    Transaction(
+                        date=ynab_formatted_date,
+                        amount=round_up_amount,
+                        payee_id=self.source_config.round_up_payee_id,
+                        cleared="cleared",
+                    )
+                )
+
         return transactions
 
     def get_transactions_from_source(self) -> Transaction:
@@ -61,7 +61,7 @@ class SyncUpbank(SyncBase):
             datetime.now(timezone.utc) - timedelta(days=self.duration_in_days)
         ).strftime(self.UPBANK_DATE_FORMAT)
 
-        # upbank date format is slightly different from what is usually supported, add 
+        # upbank date format is slightly different from what is usually supported, add
         # colon to timezone information.  HHMM -> HH:MM
         since_date = since_date[:-2] + ":" + since_date[-2:]
 

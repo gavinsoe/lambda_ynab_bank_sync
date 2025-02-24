@@ -1,6 +1,7 @@
 import pytest
-from utilities.config import CFG
+
 from services.upbank_service import UpBankService
+from utilities.config import CFG
 
 source_configs = [(sc.name, sc.source) for sc in CFG.sync_configs]
 

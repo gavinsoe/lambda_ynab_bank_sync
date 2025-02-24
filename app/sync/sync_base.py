@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 from datetime import datetime, timedelta
 from typing import List
+
 from services.models.ynab_models import Transaction
 from services.ynab_service import YnabService
 from utilities.config import DestinationConfig

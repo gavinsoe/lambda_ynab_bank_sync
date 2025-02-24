@@ -1,8 +1,10 @@
 import json
-from typing import List
-import requests
-from utilities.config import CFG
 import urllib.parse
+from typing import List
+
+import requests
+
+from utilities.config import CFG
 
 
 class UpBankService:

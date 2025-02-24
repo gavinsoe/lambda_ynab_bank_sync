@@ -2,6 +2,7 @@ import json
 from typing import List
 
 import requests
+
 from services.models.ynab_models import Account, Budget, Transaction
 from utilities.config import CFG
 
